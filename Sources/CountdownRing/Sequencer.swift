@@ -19,7 +19,8 @@ public class Sequencer {
         sequence.append(transformation)
     }
     
-	/// Begins to move through the sequence of transformations.
+	/// Moves through the sequence of transformations and stops when there
+	/// are none remaining.
     public func move(_ interval: TimeInterval = 0.3, runLoop: RunLoop = .current) {
         
 		/// Stop if the sequence is empty

@@ -24,11 +24,11 @@ struct ContentView: View {
     
 	/// Use a state variable to track the progress of the countdown. We'll pass this 
 	/// to the countdown ring as a binding.
-	@State var isFinished = false
+	@State var countdownIsFinished = false
 	
 	var body: some View {
 		VStack {
-			if self.isFinished {
+			if countdownIsFinished {
 				/// Show "done" when the countdown is over
 				Text("The countdown is done!")
 					.onAppear {
@@ -39,7 +39,7 @@ struct ContentView: View {
 			} else {
 				/// Show the countdown ring. It will animate automatically when it appears.
 				CountdownRing(
-					isFinished: self.$isFinished, /// pass in the `isFinished` binding
+					isFinished: $countdownIsFinished, /// pass in the `isFinished` binding
 					gradientColors: [.pink, .orange] /// set the colors for the gradient
 				)
 			}
