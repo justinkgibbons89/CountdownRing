@@ -9,7 +9,7 @@ struct ContentView: View {
     
 	var body: some View {
 		/// The ring will expand to fill the height of its parent.
-		/// Its width will equal its width.
+		/// Its width will equal its height.
 		/// All we have to do is pass in the colors for the gradient.
 		CountdownRing(gradientColors: [.green, .blue])
     }
