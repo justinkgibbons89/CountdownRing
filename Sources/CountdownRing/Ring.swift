@@ -5,9 +5,9 @@ import SwiftUI
 public struct Ring: Shape {
 
 	//MARK: Properties
-    var degrees: Double
-    var radius: CGFloat
-    var inset: CGFloat
+    public var degrees: Double
+    public var radius: CGFloat
+    public var inset: CGFloat
     
     public var animatableData: Double {
         get { return degrees }

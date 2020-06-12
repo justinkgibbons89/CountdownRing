@@ -5,16 +5,15 @@ import SwiftUI
 public struct CountdownRing: View {
     
     //MARK: Properties
-    var strokeWidthMultiplier: CGFloat = 1
-    var strokeWidthDivisorConstant: CGFloat = 10
-    var colors: [Color] = [.green, .blue]
-    var sequencer = Sequencer()
+    public var strokeWidthMultiplier: CGFloat = 1
+    public var strokeWidthDivisorConstant: CGFloat = 10
+    public var colors: [Color] = [.green, .blue]
+    public var sequencer = Sequencer()
 
     //MARK: Data Sources
-    @State var degrees: Double = 360
-    @State var count: Int = 3
-    @Binding var countdownFinished: Bool
-
+    @State public var degrees: Double = 360
+    @State public var count: Int = 3
+    @Binding public var countdownFinished: Bool
     
     //MARK: Properties
     private var gradient: LinearGradient {
@@ -74,7 +73,7 @@ public struct CountdownRing: View {
     }
 
 	/// Begins a timed transform of the state variables, to animate the countdown.
-    func beginCountdown() {
+    private func beginCountdown() {
     	sequencer.add {
             self.degrees = 360
             self.count = 3
