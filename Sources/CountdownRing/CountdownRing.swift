@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// An animated countdown ring, similar to the one's used in Apple Workouts on watchOS.
+/// An animated countdown ring, similar to the one used in Apple Workouts on watchOS.
 @available(macOS 10.15, iOS 13, watchOS 6, *)
 public struct CountdownRing: View {
     
@@ -8,6 +8,9 @@ public struct CountdownRing: View {
     public var strokeWidthMultiplier: CGFloat = 1
     public var strokeWidthDivisorConstant: CGFloat = 10
     public var colors: [Color] = [.green, .blue]
+
+	/// This sequencer will manage the state transformations that will drive
+	/// the countdown animations.
     private var sequencer = Sequencer()
 
     //MARK: Data Sources
@@ -111,6 +114,7 @@ public struct CountdownRing: View {
             self.countdownFinished = true
         }
         
+		/// Actually starts the sequence
         sequencer.move(1, runLoop: .current)
     }
     
