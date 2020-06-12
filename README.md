@@ -1,6 +1,6 @@
 # CountdownRing
 
-A description of this package.
+An animated countdown ring similar to the one used in Apple Workouts on watchOS.
 
 ## A countdown ring with a different view shown upon completion
 
