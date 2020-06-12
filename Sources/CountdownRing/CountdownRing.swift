@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// An animated countdown ring, similar to the one's used in Apple's watchOS.
+/// An animated countdown ring, similar to the one's used in Apple Workouts on watchOS.
 @available(macOS 10.15, iOS 13, watchOS 6, *)
 public struct CountdownRing: View {
     
