@@ -48,5 +48,4 @@ struct ContentView: View {
 }
 ```
 
-## Demo
 ![](demo.gif)
