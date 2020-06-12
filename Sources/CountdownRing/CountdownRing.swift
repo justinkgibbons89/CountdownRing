@@ -44,7 +44,7 @@ public struct CountdownRing: View {
                 /// This is the faded background ring.
                 Ring(
                     degrees: 360,
-                    radius: geo.size.width,
+                    radius: geo.size.height,
                     inset: self.strokeWidth(for: geo) / 2
                 )
                     .stroke(
@@ -56,7 +56,7 @@ public struct CountdownRing: View {
                 /// This is the full color foreground ring.
                 Ring(
                     degrees: self.degrees,
-                    radius: geo.size.width,
+                    radius: geo.size.height,
                     inset: self.strokeWidth(for: geo) / 2
                 )
                     .stroke(
@@ -65,10 +65,10 @@ public struct CountdownRing: View {
                 ).animation(.default)
             }
                 
-                /// Frames the stack in the center of the superview, expanding to the full width, with a 1:1 aspect ratio.
+                /// Frames the stack in the center of the superview, expanding to the full height, with a 1:1 aspect ratio.
                 .frame(
-                    width: geo.size.width,
-                    height: geo.size.width,
+                    width: geo.size.height,
+                    height: geo.size.height,
                     alignment: .center
             )
         }
@@ -112,7 +112,7 @@ public struct CountdownRing: View {
     /// - Parameter geometry: The geometry proxy of the superview.
     /// - Returns: The desired stroke width of the ring.
     private func strokeWidth(for geometry: GeometryProxy) -> CGFloat  {
-        geometry.size.width / strokeWidthDivisorConstant * strokeWidthMultiplier
+        geometry.size.height / strokeWidthDivisorConstant * strokeWidthMultiplier
     }
     
     private func strokeStyle(for geometry: GeometryProxy) -> StrokeStyle {

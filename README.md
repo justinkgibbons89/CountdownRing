@@ -8,8 +8,8 @@ An animated countdown ring similar to the one used in Apple Workouts on watchOS.
 struct ContentView: View {
     
 	var body: some View {
-		/// The ring will expand to fill the width of its parent.
-		/// Its height will equal its width.
+		/// The ring will expand to fill the height of its parent.
+		/// Its width will equal its width.
 		/// All we have to do is pass in the colors for the gradient.
 		CountdownRing(gradientColors: [.green, .blue])
     }
