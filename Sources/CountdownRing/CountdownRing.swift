@@ -16,10 +16,16 @@ public struct CountdownRing: View {
     @Binding private var countdownFinished: Bool
 
 	//MARK: Initialization
-	public init(isFinished: Binding<Bool>, gradientColors: [Color], widthMultiplier: CGFloat = 1) {
+	public init(isFinished: Binding<Bool>? = nil, colors: [Color], widthMultiplier: CGFloat = 1) {
 		self.strokeWidthMultiplier = widthMultiplier
-		self.colors = gradientColors
-		self._countdownFinished = isFinished
+		self.colors = colors
+
+		if let isFinished = isFinished {
+			self._countdownFinished = isFinished
+		} else {
+			/// Create a empty placeholder binding if one wasn't passed in
+			self._countdownFinished = Binding<Bool>(get: { return false }, set: { _ in })
+		}
 	}
     
     //MARK: Properties

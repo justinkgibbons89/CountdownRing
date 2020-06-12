@@ -11,7 +11,7 @@ struct ContentView: View {
 		/// The ring will expand to fill the height of its parent.
 		/// Its width will equal its height.
 		/// All we have to do is pass in the colors for the gradient.
-		CountdownRing(gradientColors: [.green, .blue])
+		CountdownRing(colors: [.green, .blue])
     }
 
 }
@@ -40,7 +40,7 @@ struct ContentView: View {
 				/// Show the countdown ring. It will animate automatically when it appears.
 				CountdownRing(
 					isFinished: $countdownIsFinished, /// pass in the `isFinished` binding
-					gradientColors: [.pink, .orange] /// set the colors for the gradient
+					colors: [.pink, .orange] /// set the colors for the gradient
 				)
 			}
 		}
