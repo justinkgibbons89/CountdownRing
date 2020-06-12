@@ -8,12 +8,19 @@ public struct CountdownRing: View {
     public var strokeWidthMultiplier: CGFloat = 1
     public var strokeWidthDivisorConstant: CGFloat = 10
     public var colors: [Color] = [.green, .blue]
-    public var sequencer = Sequencer()
+    private var sequencer = Sequencer()
 
     //MARK: Data Sources
-    @State public var degrees: Double = 360
-    @State public var count: Int = 3
-    @Binding public var countdownFinished: Bool
+    @State private var degrees: Double = 360
+    @State private var count: Int = 3
+    @Binding private var countdownFinished: Bool
+
+	//MARK: Initialization
+	public init(isFinished: Binding<Bool>, gradientColors: [Color], widthMultiplier: CGFloat = 1) {
+		self.strokeWidthMultiplier = widthMultiplier
+		self.colors = gradientColors
+		self._countdownFinished = isFinished
+	}
     
     //MARK: Properties
     private var gradient: LinearGradient {
