@@ -8,6 +8,7 @@ public struct CountdownRing: View {
     public var strokeWidthMultiplier: CGFloat = 1
     public var strokeWidthDivisorConstant: CGFloat = 10
     public var colors: [Color] = [.green, .blue]
+	public var textColors: [Color] = [.white, .white]
 
 	/// This sequencer will manage the state transformations that will drive
 	/// the countdown animations.
@@ -15,7 +16,7 @@ public struct CountdownRing: View {
 
     //MARK: Data Sources
     @State private var degrees: Double = 360
-    @State private var count: Int = 3
+    @State private var count: String = "Ready"
     @Binding private var countdownFinished: Bool
 
 	//MARK: Initialization
@@ -41,13 +42,12 @@ public struct CountdownRing: View {
             ZStack {
                 /// This is the middle countdown text.
                 LinearGradient(
-                    gradient: Gradient(colors: self.colors),
+                    gradient: Gradient(colors: self.textColors),
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing)
                     .mask(
                         Text("\(self.count)")
-                            .font(Font.system(size: geo.size.width / 2.25))
-                            .bold()
+                            .font(Font.system(size: geo.size.width / 2))
                             .frame(width: nil, height: nil, alignment: .center))
                 
                 /// This is the faded background ring.
@@ -92,22 +92,22 @@ public struct CountdownRing: View {
     private func beginCountdown() {
     	sequencer.add {
             self.degrees = 360
-            self.count = 3
+            self.count = "Ready"
         }
         
         sequencer.add {
             self.degrees = 240
-            self.count = 2
+            self.count = "3"
         }
         
         sequencer.add {
             self.degrees = 120
-            self.count = 1
+            self.count = "2"
         }
         
         sequencer.add {
-            self.degrees = 0
-            self.count = 0
+            self.degrees = 15
+            self.count = "1"
         }
         
         sequencer.add {
