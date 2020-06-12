@@ -13,6 +13,13 @@ public struct Ring: Shape {
         get { return degrees }
         set { degrees = newValue }
     }
+
+	//MARK: Initialization
+	public init(degrees: Double, radius: CGFloat, inset: CGFloat) {
+		self.degrees = degrees
+		self.radius = radius
+		self.inset = inset
+	}
     
 	//MARK: Path
     public func path(in rect: CGRect) -> Path {
