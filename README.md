@@ -3,14 +3,12 @@
 An animated countdown ring similar to the one used in Apple Workouts on watchOS.
 
 ## A simple countdown ring
+The ring will expand to fill the height of its parent. Its width will equal its height. All we have to do is create the countdown ring and pass in the colors for the gradient.
 
 ```swift
 struct ContentView: View {
     
 	var body: some View {
-		/// The ring will expand to fill the height of its parent.
-		/// Its width will equal its height.
-		/// All we have to do is pass in the colors for the gradient.
 		CountdownRing(colors: [.green, .blue])
     }
 
@@ -31,8 +29,8 @@ struct ContentView: View {
 			if countdownIsFinished {
 				/// Show "done" when the countdown is over
 				Text("The countdown is done!")
+					/// We could also play a haptic at the end of the countdown.
 					.onAppear {
-						/// We could also play a haptic at the end of the countdown.
 						/// In this case we're using `start` to signify the start of the workout.
 						WKInterfaceDevice.current().play(.start)
 				}
