@@ -42,7 +42,7 @@ struct ContentView: View {
 				/// when it appears.
 				CountdownRing(
 					isFinished: $countdownIsFinished, /// pass in the `isFinished` binding
-					colors: [.pink, .orange] /// set the colors for the gradient
+					colors: [.pink, .blue] /// set the colors for the gradient
 				)
 			}
 		}
