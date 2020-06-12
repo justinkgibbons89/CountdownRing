@@ -2,6 +2,8 @@
 
 An animated countdown ring similar to the one used in Apple Workouts on watchOS.
 
+![](demo.gif)
+
 ## A simple countdown ring
 The ring will expand to fill the height of its parent. Its width will equal its height. All we have to do is create the countdown ring and pass in the colors for the gradient.
 
@@ -48,4 +50,3 @@ struct ContentView: View {
 }
 ```
 
-![](demo.gif)
