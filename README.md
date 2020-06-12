@@ -2,14 +2,14 @@
 
 An animated countdown ring similar to the one used in Apple Workouts on watchOS.
 
-## A countdown ring with a different view shown upon completion
+## Show a different view upon completion
 
 ```swift
 struct ContentView: View {
     
 	//MARK: Data Sources
 	/// This should be `false` to start
-    @State var isFinished = false
+	@State var isFinished = false
 	
 	var body: some View {
 		VStack {
@@ -30,6 +30,6 @@ struct ContentView: View {
 				)
 			}
 		}
-    }
+	}
 }
 ```
