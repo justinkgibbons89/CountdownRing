@@ -15,8 +15,10 @@ public struct CountdownRing: View {
     private var sequencer = Sequencer()
 
     //MARK: Data Sources
-    @State private var degrees: Double = 360
-    @State private var count: String = "Ready"
+    @State private var degrees: Double = 1
+    @State private var count: String = "3"
+	@State private var alpha: Double = 1
+	@State private var textSize: CGFloat = 50
     @Binding private var countdownFinished: Bool
 
 	//MARK: Initialization
@@ -44,11 +46,14 @@ public struct CountdownRing: View {
                 LinearGradient(
                     gradient: Gradient(colors: self.textColors),
                     startPoint: .topLeading,
-                    endPoint: .bottomTrailing)
+                    endPoint: .bottomTrailing
+				)
                     .mask(
-                        Text("\(self.count)")
-                            .font(Font.system(size: geo.size.width / 2))
-                            .frame(width: nil, height: nil, alignment: .center))
+						Text(self.count)
+                            .font(Font.system(size: geo.size.width / 3))
+							.minimumScaleFactor(0.5)
+							.frame(width: geo.size.width / 1.5, height: nil, alignment: .center)
+				)
                 
                 /// This is the faded background ring.
                 Ring(
@@ -71,7 +76,8 @@ public struct CountdownRing: View {
                     .stroke(
                         self.gradient,
                         style: self.strokeStyle(for: geo)
-                ).animation(.default)
+                )
+					.animation(.easeOut(duration: 0.5))
             }
                 
                 /// Frames the stack in the center of the superview, expanding to the full height, with a 1:1 aspect ratio.
@@ -80,7 +86,8 @@ public struct CountdownRing: View {
                     height: geo.size.height,
                     alignment: .center
             )
-        }
+		}
+		.opacity(alpha)
         .onAppear {
             /// Begin the countdown transformations.
             self.beginCountdown()
@@ -90,9 +97,12 @@ public struct CountdownRing: View {
 
 	/// Begins a timed transform of the state variables, to animate the countdown.
     private func beginCountdown() {
+		sequencer.add {
+			self.degrees = 1
+		}
+		
     	sequencer.add {
             self.degrees = 360
-            self.count = "Ready"
         }
         
         sequencer.add {
@@ -106,13 +116,19 @@ public struct CountdownRing: View {
         }
         
         sequencer.add {
-            self.degrees = 15
+            self.degrees = 1
             self.count = "1"
         }
         
         sequencer.add {
-            self.countdownFinished = true
+			withAnimation {
+				self.alpha = 0
+			}
         }
+		
+		sequencer.add {
+			self.countdownFinished = true
+		}
         
 		/// Actually starts the sequence
         sequencer.move(1, runLoop: .current)
