@@ -77,7 +77,7 @@ public struct CountdownRing: View {
 						self.gradient,
 						style: self.strokeStyle(for: geo)
 				)
-					.animation(.easeOut(duration: 0.5))
+					.animation(.interpolatingSpring(stiffness: 20, damping: 10, initialVelocity: 5))
 			}
 				
 				/// Frames the stack in the center of the superview, expanding to the full height, with a 1:1 aspect ratio.
