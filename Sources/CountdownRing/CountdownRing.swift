@@ -7,8 +7,10 @@ public struct CountdownRing: View {
 	//MARK: Properties
 	public var strokeWidthMultiplier: CGFloat = 1
 	public var strokeWidthDivisorConstant: CGFloat = 10
-	public var colors: [Color] = [.green, .blue]
-	public var textColors: [Color] = [.white, .white]
+	public var colors: [Color] 
+	public var textColors: [Color]
+	public var ringAnimation: Animation
+	public var countdownInterval: TimeInterval
 	
 	/// This sequencer will manage the state transformations that will drive
 	/// the countdown animations.
@@ -22,10 +24,13 @@ public struct CountdownRing: View {
 	@Binding private var countdownFinished: Bool
 	
 	//MARK: Initialization
-	public init(isFinished: Binding<Bool>? = nil, ringColors: [Color], widthMultiplier: CGFloat = 1, textColors: [Color] = [.white, .white]) {
+	public init(isFinished: Binding<Bool>? = nil, ringColors: [Color], widthMultiplier: CGFloat = 1, textColors: [Color] = [.white, .white], ringAnimation: Animation = .interpolatingSpring(stiffness: 20, damping: 10, initialVelocity: 5), countdownInterval: TimeInterval = 1) {
 		self.strokeWidthMultiplier = widthMultiplier
 		self.colors = ringColors
 		self.textColors = textColors
+		self.ringAnimation = ringAnimation
+		self.countdownInterval = countdownInterval
+		
 		if let isFinished = isFinished {
 			self._countdownFinished = isFinished
 		} else {
@@ -77,7 +82,7 @@ public struct CountdownRing: View {
 						self.gradient,
 						style: self.strokeStyle(for: geo)
 				)
-					.animation(.interpolatingSpring(stiffness: 20, damping: 10, initialVelocity: 5))
+					.animation(self.ringAnimation)
 			}
 				
 				/// Frames the stack in the center of the superview, expanding to the full height, with a 1:1 aspect ratio.
@@ -132,7 +137,7 @@ public struct CountdownRing: View {
 		}
 		
 		/// Actually starts the sequence
-		sequencer.move(1, runLoop: .current)
+		sequencer.move(countdownInterval, runLoop: .current)
 	}
 	
 	/// Returns a stroke width for a geometry proxy, calculated using the width constant and multiplier.
