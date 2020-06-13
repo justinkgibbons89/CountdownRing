@@ -16,16 +16,16 @@ public struct CountdownRing: View {
 
     //MARK: Data Sources
     @State private var degrees: Double = 1
-    @State private var count: String = "3"
+    @State private var count: String = "Ready"
 	@State private var alpha: Double = 1
-	@State private var textSize: CGFloat = 50
+	@State private var textFactor: CGFloat = 0.5
     @Binding private var countdownFinished: Bool
 
 	//MARK: Initialization
-	public init(isFinished: Binding<Bool>? = nil, colors: [Color], widthMultiplier: CGFloat = 1) {
+	public init(isFinished: Binding<Bool>? = nil, ringColors: [Color], widthMultiplier: CGFloat = 1, textColors: [Color] = [.white, .white]) {
 		self.strokeWidthMultiplier = widthMultiplier
-		self.colors = colors
-
+		self.colors = ringColors
+		self.textColors = textColors
 		if let isFinished = isFinished {
 			self._countdownFinished = isFinished
 		} else {
@@ -50,7 +50,7 @@ public struct CountdownRing: View {
 				)
                     .mask(
 						Text(self.count)
-                            .font(Font.system(size: geo.size.width / 3))
+							.font(Font.system(size: geo.size.width / 3 * self.textFactor))
 							.minimumScaleFactor(0.5)
 							.frame(width: geo.size.width / 1.5, height: nil, alignment: .center)
 				)
@@ -106,6 +106,7 @@ public struct CountdownRing: View {
         }
         
         sequencer.add {
+			self.textFactor = 1
             self.degrees = 240
             self.count = "3"
         }
