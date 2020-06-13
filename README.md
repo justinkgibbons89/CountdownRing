@@ -30,7 +30,7 @@ struct ContentView: View {
 		VStack {
 			/// Show the ring or the completion view based on the state of the `isFinished` variable
 			if countdownIsFinished {
-				/// Show "done" when the countdown is finished
+				/// Show a message when the countdown is finished
 				Text("The countdown is done!")
 					/// We could also play a haptic at the end of the countdown.
 					.onAppear {
@@ -38,8 +38,8 @@ struct ContentView: View {
 						WKInterfaceDevice.current().play(.start)
 				}
 			} else {
-				/// Show the countdown ring when `isFinished` is false. It will animate automatically 
-				/// when it appears.
+				/// Show the countdown ring when `countdownIsFinished` is false. It will 
+				/// animate automatically when it appears.
 				CountdownRing(
 					isFinished: $countdownIsFinished, /// pass in the `isFinished` binding
 					colors: [.pink, .blue] /// set the colors for the gradient
