@@ -21,10 +21,11 @@ public struct CountdownRing: View {
 	@State private var count: String = "Ready"
 	@State private var alpha: Double = 1
 	@State private var textFactor: CGFloat = 0.5
+	@State private var shrinkMultiplier: CGFloat = 1
 	@Binding private var countdownFinished: Bool
 	
 	//MARK: Initialization
-	public init(isFinished: Binding<Bool>? = nil, ringColors: [Color], widthMultiplier: CGFloat = 1, textColors: [Color] = [.white, .white], ringAnimation: Animation = .interpolatingSpring(stiffness: 20, damping: 10, initialVelocity: 5), countdownInterval: TimeInterval = 1) {
+	public init(isFinished: Binding<Bool>? = nil, ringColors: [Color], widthMultiplier: CGFloat = 1, textColors: [Color] = [.white, .white], ringAnimation: Animation = .interpolatingSpring(stiffness: 20, damping: 10, initialVelocity: 6), countdownInterval: TimeInterval = 1) {
 		self.strokeWidthMultiplier = widthMultiplier
 		self.colors = ringColors
 		self.textColors = textColors
@@ -59,6 +60,7 @@ public struct CountdownRing: View {
 							.minimumScaleFactor(0.5)
 							.frame(width: geo.size.width / 1.5, height: nil, alignment: .center)
 				)
+					.opacity(self.alpha)
 				
 				/// This is the faded background ring.
 				Ring(
@@ -92,7 +94,6 @@ public struct CountdownRing: View {
 					alignment: .center
 			)
 		}
-		.opacity(alpha)
 		.onAppear {
 			/// Begin the countdown transformations.
 			self.beginCountdown()
@@ -129,6 +130,7 @@ public struct CountdownRing: View {
 		sequencer.add {
 			withAnimation {
 				self.alpha = 0
+				self.shrinkMultiplier = 0
 			}
 		}
 		
@@ -149,7 +151,7 @@ public struct CountdownRing: View {
 	
 	private func strokeStyle(for geometry: GeometryProxy) -> StrokeStyle {
 		StrokeStyle(
-			lineWidth: strokeWidth(for: geometry),
+			lineWidth: strokeWidth(for: geometry) * shrinkMultiplier,
 			lineCap: .round,
 			lineJoin: .bevel,
 			miterLimit: 0,
