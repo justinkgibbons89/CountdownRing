@@ -21,14 +21,16 @@ public class Sequencer {
 	
 	/// Moves through the sequence of transformations and stops when there
 	/// are none remaining.
+	/// - Parameters:
+	///   - interval: The time to wait between transformations in the sequence, measured in seconds.
+	///   - runLoop: The run loop the underlying timer should be attached to.
 	public func move(_ interval: TimeInterval = 0.3, runLoop: RunLoop = .current) {
 		
 		/// Stop if the sequence is empty
 		if self.sequence.isEmpty { self.stop(); return }
 		
 		/// Execute first transfomation immediately
-		let transformation = self.sequence.removeFirst()
-		transformation()
+		self.performNext()
 		
 		/// Create timer
 		timer = Timer.publish(every: interval, on: .current, in: .common)
@@ -39,13 +41,21 @@ public class Sequencer {
 			if self.sequence.isEmpty { self.stop(); return }
 			
 			/// Execute transformation
-			let transformation = self.sequence.removeFirst()
-			transformation()
+			self.performNext()
 		}
 		.store(in: &cancellables)
 		
 		/// Connect
 		timer.connect().store(in: &cancellables)
+	}
+	
+	/// Perform the next transformation in the sequence.
+	///
+	/// Performing a transformation consumes it. Successive calls to this method will iterate through the sequence until it's empty. Check
+	/// to make sure the `sequence` collection is not empty before calling this.
+	private func performNext() {
+		let perform = sequence.removeFirst()
+		perform()
 	}
 	
 	/// Stops the transformations and cancels all the subscribers.
