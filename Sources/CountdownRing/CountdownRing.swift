@@ -12,20 +12,39 @@ public struct CountdownRing: View {
 	public var ringAnimation: Animation
 	public var countdownInterval: TimeInterval
 	
-	/// This sequencer will manage the state transformations that will drive
-	/// the countdown animations.
+	/// This sequencer will manage the state transformations that will drive the countdown animations.
 	private var sequencer = Sequencer()
 	
 	//MARK: Data Sources
+	/// The number of degrees encompassed by the ring.
 	@State private var degrees: Double = 1
-	@State private var count: String = "Ready"
-	@State private var alpha: Double = 1
-	@State private var textFactor: CGFloat = 0.5
-	@State private var shrinkMultiplier: CGFloat = 1
+	
+	/// The countdown message displayed in the center of the ring.
+	@State private var countdownMessage: String = "Ready"
+	
+	/// The opacity of the center text.
+	@State private var textOpacity: Double = 1
+	
+	/// The factor by which the "ready" message should be scaled, proportional to the numbered countdown messages.
+	/// The "ready" message is set to half the scale of the other messages, so it will fit within the ring.
+	@State private var textScaleFactor: CGFloat = 0.5
+	
+	/// The factor by which the ring should be scaled, proportional to its original size. This is set to `0` by the sequencer at the
+	/// end of the countdown, causing the ring to animate out with a shrinking effect.
+	@State private var ringScaleFactor: CGFloat = 1
+	
 	@Binding private var countdownFinished: Bool
 	
 	//MARK: Initialization
-	public init(isFinished: Binding<Bool>? = nil, ringColors: [Color], widthMultiplier: CGFloat = 1, textColors: [Color] = [.white, .white], ringAnimation: Animation = .interpolatingSpring(stiffness: 20, damping: 10, initialVelocity: 6), countdownInterval: TimeInterval = 1) {
+	/// Creates a countdown ring with the specified parameters.
+	/// - Parameters:
+	///   - isFinished: The binding that tracks whether the countdown is finished.
+	///   - ringColors: The colors of the ring. Multiple colors will result in a gradient.
+	///   - widthMultiplier: The factor by which the width of ring should be scaled.
+	///   - textColors: The colors of the text inside the ring. Multiple colors will result in a gradient.
+	///   - ringAnimation: The timing curve of animations applying to the ring.
+	///   - countdownInterval: The interval between ticks in the countdown.
+	public init(ringColors: [Color], isFinished: Binding<Bool>? = nil, widthMultiplier: CGFloat = 1, textColors: [Color] = [.white, .white], ringAnimation: Animation = .interpolatingSpring(stiffness: 20, damping: 10, initialVelocity: 6), countdownInterval: TimeInterval = 1) {
 		self.strokeWidthMultiplier = widthMultiplier
 		self.colors = ringColors
 		self.textColors = textColors
@@ -55,12 +74,12 @@ public struct CountdownRing: View {
 					endPoint: .bottomTrailing
 				)
 					.mask(
-						Text(self.count)
-							.font(Font.system(size: geo.size.width / 3 * self.textFactor))
+						Text(self.countdownMessage)
+							.font(Font.system(size: geo.size.width / 3 * self.textScaleFactor))
 							.minimumScaleFactor(0.5)
 							.frame(width: geo.size.width / 1.5, height: nil, alignment: .center)
 				)
-					.opacity(self.alpha)
+					.opacity(self.textOpacity)
 				
 				/// This is the faded background ring.
 				Ring(
@@ -112,25 +131,25 @@ public struct CountdownRing: View {
 		}
 		
 		sequencer.add {
-			self.textFactor = 1
+			self.textScaleFactor = 1
 			self.degrees = 240
-			self.count = "3"
+			self.countdownMessage = "3"
 		}
 		
 		sequencer.add {
 			self.degrees = 120
-			self.count = "2"
+			self.countdownMessage = "2"
 		}
 		
 		sequencer.add {
 			self.degrees = 1
-			self.count = "1"
+			self.countdownMessage = "1"
 		}
 		
 		sequencer.add {
 			withAnimation {
-				self.alpha = 0
-				self.shrinkMultiplier = 0
+				self.textOpacity = 0
+				self.ringScaleFactor = 0
 			}
 		}
 		
@@ -151,7 +170,7 @@ public struct CountdownRing: View {
 	
 	private func strokeStyle(for geometry: GeometryProxy) -> StrokeStyle {
 		StrokeStyle(
-			lineWidth: strokeWidth(for: geometry) * shrinkMultiplier,
+			lineWidth: strokeWidth(for: geometry) * ringScaleFactor,
 			lineCap: .round,
 			lineJoin: .bevel,
 			miterLimit: 0,
